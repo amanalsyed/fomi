@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+/* Dark mode is driven by data-theme so the toggle can override the OS setting. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ---------- Design tokens ---------- */
+:root {
+  --bg: #faf7f4;
+  --surface: #ffffff;
+  --panel: #f6e9e4;
+  --panel-strong: #eed8cf;
+  --ink: #1c1917;
+  --muted: #6b5d56;
+  --line: #e6d6ce;
+  --accent: #e8927c;
+  --accent-hover: #e2826a;
+  --accent-ink: #2b140d;
+  --ring: #b9442c;
+  --scrim: rgb(24 14 10 / 0.72);
+  --shadow-float: 0 12px 32px -14px rgb(70 32 20 / 0.28), 0 2px 6px -2px rgb(70 32 20 / 0.08);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #141110;
+  --surface: #2c2522;
+  --panel: #231d1b;
+  --panel-strong: #2d2522;
+  --ink: #f5ede9;
+  --muted: #b5a69e;
+  --line: #352d2a;
+  --accent: #e8927c;
+  --accent-hover: #f0a28e;
+  --accent-ink: #2b140d;
+  --ring: #f3a893;
+  --scrim: rgb(0 0 0 / 0.8);
+  --shadow-float: 0 12px 32px -14px rgb(0 0 0 / 0.7), 0 2px 6px -2px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-panel: var(--panel);
+  --color-panel-strong: var(--panel-strong);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-ring: var(--ring);
+  --color-scrim: var(--scrim);
+  --shadow-float: var(--shadow-float);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  --breakpoint-3xl: 120rem;
+}
+
+@theme {
+  --animate-fade-up: fade-up 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-pop: pop 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  --animate-sweep: sweep 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  --animate-flash: flash 1.6s ease-out 1;
+  --animate-toast: toast 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.6); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+  @keyframes sweep {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+  }
+  @keyframes flash {
+    0% { box-shadow: 0 0 0 0 var(--accent); }
+    20% { box-shadow: 0 0 0 4px var(--accent); }
+    100% { box-shadow: 0 0 0 0 transparent; }
+  }
+  @keyframes toast {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+}
+
+/* ---------- Base ---------- */
+html {
+  background: var(--bg);
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  overscroll-behavior: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+/* Slim, quiet scrollbars (the mockup shows a thin track on the feed). */
+.thin-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+.thin-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.thin-scroll::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Skeleton shimmer surface */
+.skeleton {
+  background-image: linear-gradient(
+    100deg,
+    var(--panel) 20%,
+    color-mix(in srgb, var(--panel-strong) 70%, var(--surface)) 40%,
+    var(--panel) 60%
+  );
+  background-size: 200% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
